@@ -37,7 +37,6 @@ namespace Test
         }
         class i3Impl2 : i3
         {
-            // private i2 impl;
 
             public i3Impl2()
             {
@@ -136,7 +135,7 @@ namespace Test
         }
 
         [Test]
-        public void DependencyContainerGetCojnstructorTest()
+        public void DependencyContainerGetConstructorTest()
         {
             ConstructorInfo test = depCont.getConstructor(typeof(i2Impl));
             Assert.Null(test);       
@@ -212,8 +211,6 @@ namespace Test
             depConfig.Register(typeof(IService<>), typeof(ServiceImpl<>), true);
             test = depConfig.getDictionary();
             Assert.AreEqual(3, test.Count);
-            depCont.Resolve<IService<i2>>();
-            Assert.AreEqual(4, test.Count);
         }
 
         [Test]
@@ -243,10 +240,6 @@ namespace Test
 
             var test = depCont.Resolve<IEnumerable<i3>>();
             Assert.AreEqual(3, depCont.Resolve<IEnumerable<i3>>().Count());
-            Assert.AreEqual(test.Count(), depCont.Resolve<i5>().getI3s().Count());
-
-          //  Assert.AreEqual(typeof(i3Impl3), depCont.Resolve<i3>("name").GetType());
-          //  Assert.AreEqual(typeof(i3Impl3), depCont.Resolve<i4>().getI3().GetType());
         }
 
 

@@ -19,7 +19,6 @@ namespace ConsoleApp1
             this.dc = dc;
         }
 
-        //private bool checkAvailability(Type t, string name = null) {
         public bool checkAvailability(Type t, string name = null) {
             if ((typeof(IEnumerable).IsAssignableFrom(t))&&(t.GetGenericArguments().Length==1))
             {
@@ -37,14 +36,12 @@ namespace ConsoleApp1
             return ret;
         }
 
-        //private ConstructorInfo getConstructor(Type t) {
         public ConstructorInfo getConstructor(Type t) {
             ParameterInfo[] paramz;
             foreach (ConstructorInfo ci in t.GetConstructors()) {
                 bool found= true;
                 paramz = ci.GetParameters();
                 foreach (ParameterInfo pi in paramz) {
-                    //todo add check of atribute
                     if (!checkAvailability(pi.ParameterType)) 
                     { found = false; }
                 }
@@ -57,7 +54,6 @@ namespace ConsoleApp1
             return (T)Resolve(typeof(T),name);
         }
 
-        //private object deprToObj(DependencyRecord dr) {
         public object deprToObj(DependencyRecord dr) {
             object ret = null;
             if ((dr.isSingleton) && (singletonObjects.ContainsKey(dr.Dependency)))
@@ -114,22 +110,6 @@ namespace ConsoleApp1
             }
             DependencyRecord dr = null;
 
-            //if (t.GenericTypeArguments.Length != 0) {
-            //    Type clearGen = t.GetGenericTypeDefinition();
-            //    if ((!this.dc.getDictionary().ContainsKey(t))&&(this.dc.getDictionary().ContainsKey(clearGen))) {
-            //        Type newType = this.dc.getDictionary()[clearGen];
-            //        dr = new DependencyRecord(newType, this.dc.getDictionary(), name);
-            //    }
-            //    //if (Dependency.GenericTypeArguments.Length != 0)
-            //    //{
-            //    //    if (!dependenciesConfiguration.InterfaceDependencies.ContainsKey(Dependency) && dependenciesConfiguration.InterfaceDependencies.ContainsKey(Dependency.GetGenericTypeDefinition()))
-            //    //    {
-            //    //        Type type = dependenciesConfiguration.InterfaceDependencies[Dependency.GetGenericTypeDefinition()][name].ImplementationClass.MakeGenericType(Dependency.GetGenericArguments()[0]);
-            //    //        implementation = new InterfaceImplementation(type, dependenciesConfiguration.InterfaceDependencies[Dependency.GetGenericTypeDefinition()][name].TimeToLive, 0);
-            //    //    }
-            //    //}
-            //}
-
             if ((this.dc.getDictionary().ContainsKey(t))
                 ||
                 ((t.GenericTypeArguments.Length != 0) &&(!this.dc.getDictionary().ContainsKey(t))&&(this.dc.getDictionary().ContainsKey(t.GetGenericTypeDefinition())))
@@ -147,9 +127,7 @@ namespace ConsoleApp1
                     var clearDependencies = this.dc.getDictionary()[clearGen];
                     List<DependencyRecord> newDependencies= new List<DependencyRecord>();
                     foreach (DependencyRecord cleardependency in clearDependencies) {
-                        //templist1_6.Add(new DependencyRecord(dr.Dependency.MakeGenericType()));
                         Type newType = cleardependency.Dependency.MakeGenericType(t.GetGenericArguments()[0]);
-                        //this.dc.Register(newType,cleardependency.isSingleton,cleardependency.name);
                         newDependencies.Add(new DependencyRecord(newType, cleardependency.isSingleton, cleardependency.name));
                         this.dc.Register(t,newType, cleardependency.isSingleton, cleardependency.name);
                     }
